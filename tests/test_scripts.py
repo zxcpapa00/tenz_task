@@ -1,8 +1,4 @@
-import time
-
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from pages.base_page import BasePage
 
@@ -20,3 +16,18 @@ def test_script_1(browser):
     size_photo = {'height': 193, 'width': 272}
     assert len([size for size in page.get_size_img() if
                 size == size_photo]) == 4  # проверяем, что у всех фотографий одинаковые высота и ширина
+
+
+def test_script_2(browser):
+    page = BasePage(browser=browser)
+    page.open()  # Перейти на https://sbis.ru/
+    page.click_button_contacts()  # в раздел "Контакты"
+    assert page.get_my_region() == "Калининградская обл."  # Проверить, что определился ваш регион
+    list_partners_kld = page.get_list_partners()
+    assert page.get_list_partners() != []  # есть список партнеров
+    page.select_kamchatka_region()  # Изменить регион на Камчатский край
+    assert page.get_my_region() == "Камчатский край"  # Проверить, что подставился выбранный регион
+    assert page.get_list_partners() != []
+    assert page.get_list_partners() != list_partners_kld  # список партнеров изменился,
+    assert "41-kamchatskij-kraj" in page.get_current_url()  # url и
+    assert "Камчатский край" in page.get_title_page()  # title содержат информацию выбранного региона

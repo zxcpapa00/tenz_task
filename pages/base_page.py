@@ -1,7 +1,6 @@
 import time
 
 from selenium import webdriver
-from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -52,3 +51,21 @@ class BasePage:
         imgs = block.find_elements(By.CLASS_NAME, 'tensor_ru-About__block3-image')
         img_sizes = [img.size for img in imgs]
         return img_sizes
+
+    def get_my_region(self):
+        element = self.find((By.CLASS_NAME, "sbis_ru-Region-Chooser__text"))
+        return element.text
+
+    def get_list_partners(self):
+        block = self.find((By.XPATH, '//*[@id="contacts_list"]/div/div[2]/div[2]/div/div[2]/div[1]/div[3]'))
+        partners = block.find_elements(By.CLASS_NAME, "sbisru-Contacts-List__item")
+        return partners
+
+    def select_kamchatka_region(self):
+        self.find((By.CLASS_NAME, "sbis_ru-Region-Chooser__text")).click()
+        block = self.find((By.XPATH, f'//*[@id="popup"]/div[2]/div/div/div/div/div[2]/div/ul/li[43]/span'))
+        block.find_element(By.TAG_NAME, "span").click()
+        time.sleep(1)
+
+    def get_title_page(self):
+        return self.browser.title
