@@ -4,6 +4,8 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
+from pages.base_page import BasePage
+
 
 @pytest.fixture()
 def browser():
@@ -19,3 +21,10 @@ def browser():
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(5)
     return driver
+
+
+@pytest.fixture()
+def page(browser):
+    page = BasePage(browser=browser)
+    page.open()  # Перейти на https://sbis.ru/
+    return page

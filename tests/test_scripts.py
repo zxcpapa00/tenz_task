@@ -3,12 +3,8 @@ import time
 
 from selenium.webdriver.common.by import By
 
-from pages.base_page import BasePage
 
-
-def test_script_1(browser):
-    page = BasePage(browser=browser)
-    page.open()  # Перейти на https://sbis.ru/
+def test_script_1(browser, page):
     page.click_button_contacts()  # в раздел "Контакты"
     page.click_logo_tenzor()  # Найти баннер Тензор, кликнуть по нему
     assert page.get_current_url() == "https://tensor.ru/"  # Перейти на https://tensor.ru/
@@ -21,9 +17,7 @@ def test_script_1(browser):
                 size == size_photo]) == 4  # проверяем, что у всех фотографий одинаковые высота и ширина
 
 
-def test_script_2(browser):
-    page = BasePage(browser=browser)
-    page.open()  # Перейти на https://sbis.ru/
+def test_script_2(browser,  page):
     page.click_button_contacts()  # в раздел "Контакты"
     assert page.get_my_region() == "Калининградская обл."  # Проверить, что определился ваш регион
     list_partners_kld = page.get_list_partners()
@@ -36,9 +30,7 @@ def test_script_2(browser):
     assert "Камчатский край" in page.get_title_page()  # title содержат информацию выбранного региона
 
 
-def test_script_3(browser):
-    page = BasePage(browser=browser)
-    page.open()  # Перейти на https://sbis.ru/
+def test_script_3(browser,  page):
     page.click_upload_local_versions()  # В Footer'e найти и перейти "Скачать локальные версии"
     page.click_sbis_plugin()  # Выбрать СБИС Плагин
     page.click_sbis_plugin_windows()  # для windows
