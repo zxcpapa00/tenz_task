@@ -1,3 +1,6 @@
+import os
+import time
+
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
@@ -31,3 +34,17 @@ def test_script_2(browser):
     assert page.get_list_partners() != list_partners_kld  # список партнеров изменился,
     assert "41-kamchatskij-kraj" in page.get_current_url()  # url и
     assert "Камчатский край" in page.get_title_page()  # title содержат информацию выбранного региона
+
+
+def test_script_3(browser):
+    page = BasePage(browser=browser)
+    page.open()  # Перейти на https://sbis.ru/
+    page.click_upload_local_versions()  # В Footer'e найти и перейти "Скачать локальные версии"
+    page.click_sbis_plugin()  # Выбрать СБИС Плагин
+    page.click_sbis_plugin_windows()  # для windows
+    page.click_upload_web_uploader_windows()  # Скачать веб-установщик в папку с данным тестом (в папку files)
+    time.sleep(3)
+    assert "sbisplugin-setup-web.exe" in os.listdir(f"{os.getcwd()}\\files")  # Убедиться, что плагин скачался
+    size_kb = round(os.path.getsize(f"{os.getcwd()}\\files\\sbisplugin-setup-web.exe") / 1024, 2)
+    size_mb = round(size_kb / 1024, 2)
+    assert size_mb == 11.45  # Сравнить размер скачанного файла в мегабайтах

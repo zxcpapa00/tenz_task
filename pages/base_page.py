@@ -69,3 +69,29 @@ class BasePage:
 
     def get_title_page(self):
         return self.browser.title
+
+    def click_upload_local_versions(self):
+        element = self.wait_element_to_be_clickable(
+            (By.XPATH, '//*[@id="container"]/div[2]/div[1]/div[3]/div[3]/ul/li[8]/a'))
+        element.click()
+
+    def click_sbis_plugin(self):
+        element = self.find(
+            (By.XPATH,
+             '/html/body/div[1]/div[2]/div[1]/div/div[1]/div/div/div/div[1]/div/div/div/div[3]/div[1]/div[1]/div')
+        )
+        element.click()
+
+    def click_sbis_plugin_windows(self):
+        element = self.find(
+            (By.XPATH,
+             '/html/body/div[1]/div[2]/div[1]/div/div[1]/div/div/div/div[2]/div/div[1]/div/div/div[1]/div/div[1]/div[1]/div/div/span')
+        )
+        element.click()
+
+    def click_upload_web_uploader_windows(self):
+        element = self.find(
+            (By.XPATH,
+             '/html/body/div[1]/div[2]/div[1]/div/div[1]/div/div/div/div[2]/div/div[1]/div/div/div[2]/div[1]/div[2]/div[2]/div/a')
+        )
+        element.click()
