@@ -20,7 +20,8 @@ def browser():
     options.add_argument("--safebrowsing-disable-download-protection")
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(5)
-    return driver
+    yield driver
+    driver.quit()
 
 
 @pytest.fixture()

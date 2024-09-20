@@ -25,8 +25,12 @@ class BasePage:
 
     def click_button_contacts(self):
         element = self.wait_element_to_be_clickable(
-            (By.XPATH, '//*[@id="wasaby-content"]/div/div/div[2]/div[1]/div[1]/div[1]/div[2]/ul/li[3]/a'))
+            (By.XPATH, '//*[@id="wasaby-content"]/div/div/div[2]/div[1]/div[1]/div[1]/div[2]/ul/li[2]/div/div[1]'))
         element.click()
+        new_element = self.wait_element_to_be_clickable(
+            (By.XPATH, '//*[@id="wasaby-content"]/div/div/div[2]/div[1]/div[1]/div[1]/div[2]/ul/li[2]/div/div[2]/a[2]')
+        )
+        new_element.click()
 
     def click_button_about(self):
         element = self.wait_element_to_be_clickable(
@@ -95,3 +99,11 @@ class BasePage:
              '/html/body/div[1]/div[2]/div[1]/div/div[1]/div/div/div/div[2]/div/div[1]/div/div/div[2]/div[1]/div[2]/div[2]/div/a')
         )
         element.click()
+
+    def get_mb_file(self):
+        element = self.find(
+            (By.XPATH,
+             '/html/body/div[1]/div[2]/div[1]/div/div[1]/div/div/div/div[2]/div/div[1]/div/div/div[2]/div[1]/div[2]/div[2]/div/a')
+        )
+        mb = element.text.strip("Скачать ( Exe МБ )")
+        return mb

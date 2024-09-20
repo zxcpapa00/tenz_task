@@ -17,7 +17,7 @@ def test_script_1(browser, page):
                 size == size_photo]) == 4  # проверяем, что у всех фотографий одинаковые высота и ширина
 
 
-def test_script_2(browser,  page):
+def test_script_2(browser, page):
     page.click_button_contacts()  # в раздел "Контакты"
     assert page.get_my_region() == "Калининградская обл."  # Проверить, что определился ваш регион
     list_partners_kld = page.get_list_partners()
@@ -30,7 +30,7 @@ def test_script_2(browser,  page):
     assert "Камчатский край" in page.get_title_page()  # title содержат информацию выбранного региона
 
 
-def test_script_3(browser,  page):
+def test_script_3(browser, page):
     page.click_upload_local_versions()  # В Footer'e найти и перейти "Скачать локальные версии"
     page.click_sbis_plugin()  # Выбрать СБИС Плагин
     page.click_sbis_plugin_windows()  # для windows
@@ -39,4 +39,4 @@ def test_script_3(browser,  page):
     assert "sbisplugin-setup-web.exe" in os.listdir(f"{os.getcwd()}\\files")  # Убедиться, что плагин скачался
     size_kb = round(os.path.getsize(f"{os.getcwd()}\\files\\sbisplugin-setup-web.exe") / 1024, 2)
     size_mb = round(size_kb / 1024, 2)
-    assert size_mb == 11.45  # Сравнить размер скачанного файла в мегабайтах
+    assert str(size_mb) == page.get_mb_file()  # Сравнить размер скачанного файла в мегабайтах
