@@ -19,7 +19,7 @@ def browser():
     # options.add_argument("--headless")
     options.add_argument("--safebrowsing-disable-download-protection")
     driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(10)
     yield driver
     driver.quit()
 

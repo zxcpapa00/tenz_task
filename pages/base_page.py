@@ -24,22 +24,22 @@ class BasePage:
         return element
 
     def click_button_contacts(self):
-        element = self.wait_element_to_be_clickable(
-            (By.XPATH, '//*[@id="wasaby-content"]/div/div/div[2]/div[1]/div[1]/div[1]/div[2]/ul/li[2]/div/div[1]'))
+        element = self.find(
+            (By.CSS_SELECTOR, 'div.sbisru-Header-ContactsMenu.js-ContactsMenu'))
         element.click()
-        new_element = self.wait_element_to_be_clickable(
-            (By.XPATH, '//*[@id="wasaby-content"]/div/div/div[2]/div[1]/div[1]/div[1]/div[2]/ul/li[2]/div/div[2]/a[2]')
+        new_element = self.find(
+            (By.CSS_SELECTOR, ".sbisru-Header-ContactsMenu__items a.sbisru-link span")
         )
         new_element.click()
 
     def click_button_about(self):
-        element = self.wait_element_to_be_clickable(
-            (By.XPATH, '//*[@id="container"]/div[1]/div/div[5]/div/div/div[1]/div/p[4]/a'))
+        element = self.find(
+            (By.CSS_SELECTOR, '.tensor_ru-Index__block4-content a.tensor_ru-Index__link'))
         self.browser.execute_script("arguments[0].click();", element)
 
     def click_logo_tenzor(self):
-        element = self.wait_element_to_be_clickable(
-            (By.XPATH, '//*[@id="contacts_clients"]/div[1]/div/div/div[2]/div/a'))
+        element = self.find(
+            (By.CSS_SELECTOR, 'a[title="tensor.ru"]'))
         element.click()
         self.switch_window()
 
@@ -51,8 +51,10 @@ class BasePage:
         self.browser.switch_to.window(new_window)
 
     def get_size_img(self):
-        block = self.find((By.XPATH, '//*[@id="container"]/div[1]/div/div[4]'))
-        imgs = block.find_elements(By.CLASS_NAME, 'tensor_ru-About__block3-image')
+        imgs = self.browser.find_elements(
+            By.CSS_SELECTOR,
+            '.s-Grid-container .tensor_ru-About__block3-image-wrapper img'
+        )
         img_sizes = [img.size for img in imgs]
         return img_sizes
 
@@ -61,49 +63,56 @@ class BasePage:
         return element.text
 
     def get_list_partners(self):
-        block = self.find((By.XPATH, '//*[@id="contacts_list"]/div/div[2]/div[2]/div/div[2]/div[1]/div[3]'))
+        block = self.find((By.CSS_SELECTOR, 'div[data-qa="items-container"]'))
         partners = block.find_elements(By.CLASS_NAME, "sbisru-Contacts-List__item")
         return partners
 
     def select_kamchatka_region(self):
         self.find((By.CLASS_NAME, "sbis_ru-Region-Chooser__text")).click()
-        block = self.find((By.XPATH, f'//*[@id="popup"]/div[2]/div/div/div/div/div[2]/div/ul/li[43]/span'))
-        block.find_element(By.TAG_NAME, "span").click()
+        element = self.find((By.CSS_SELECTOR, "li span[title='Камчатский край']"))
+        self.browser.execute_script("arguments[0].click();", element)
         time.sleep(1)
 
     def get_title_page(self):
         return self.browser.title
 
     def click_upload_local_versions(self):
-        element = self.wait_element_to_be_clickable(
-            (By.XPATH, '//*[@id="container"]/div[2]/div[1]/div[3]/div[3]/ul/li[8]/a'))
+        element = self.find(
+            (By.CSS_SELECTOR, 'li a[href="/download"]'))
         element.click()
 
     def click_sbis_plugin(self):
         element = self.find(
-            (By.XPATH,
-             '/html/body/div[1]/div[2]/div[1]/div/div[1]/div/div/div/div[1]/div/div/div/div[3]/div[1]/div[1]/div')
+            (By.CSS_SELECTOR,
+             '.controls-TabButton[data-id="plugin"]')
         )
         element.click()
 
     def click_sbis_plugin_windows(self):
         element = self.find(
             (By.XPATH,
-             '/html/body/div[1]/div[2]/div[1]/div/div[1]/div/div/div/div[2]/div/div[1]/div/div/div[1]/div/div[1]/div[1]/div/div/span')
+             "//span[text()='Windows']")
         )
         element.click()
 
     def click_upload_web_uploader_windows(self):
         element = self.find(
-            (By.XPATH,
-             '/html/body/div[1]/div[2]/div[1]/div/div[1]/div/div/div/div[2]/div/div[1]/div/div/div[2]/div[1]/div[2]/div[2]/div/a')
+            (By.CSS_SELECTOR,
+             "div a[href='https://update.sbis.ru/Sbis3Plugin/master/win32/sbisplugin-setup-web.exe']")
         )
         element.click()
 
     def get_mb_file(self):
         element = self.find(
-            (By.XPATH,
-             '/html/body/div[1]/div[2]/div[1]/div/div[1]/div/div/div/div[2]/div/div[1]/div/div/div[2]/div[1]/div[2]/div[2]/div/a')
+            (By.CSS_SELECTOR,
+             "div a[href='https://update.sbis.ru/Sbis3Plugin/master/win32/sbisplugin-setup-web.exe']")
         )
         mb = element.text.strip("Скачать ( Exe МБ )")
         return mb
+
+    def get_block_sila_v_lydiah(self):
+        block = self.find(
+            (By.CSS_SELECTOR,
+             ".tensor_ru-Index__block4-content")
+        )
+        return block
